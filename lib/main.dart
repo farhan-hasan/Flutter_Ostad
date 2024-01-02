@@ -1,18 +1,102 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+
 void main() {
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: HomeScreen(),
+    // return MaterialApp(
+    //   home: HomeScreen(),
+    //   theme: ThemeData(
+    //     primarySwatch: MaterialColor(0xFF009688FF,
+    //       const {
+    //         50: const Color(0xFF009688FF),
+    //         100: const Color(0xFF009688FF),
+    //         200: const Color(0xFF009688FF),
+    //         300: const Color(0xFF009688FF),
+    //         400: const Color(0xFF009688FF),
+    //         500: const Color(0xFF009688FF),
+    //         600: const Color(0xFF009688FF),
+    //         700: const Color(0xFF009688FF),
+    //         800: const Color(0xFF009688FF),
+    //         900: const Color(0xFF009688FF),
+    //       }
+    //     ),
+    //     brightness: Brightness.light,
+    //     elevatedButtonTheme: ElevatedButtonThemeData(
+    //       style: ElevatedButton.styleFrom(
+    //         shape: RoundedRectangleBorder(
+    //           borderRadius: BorderRadius.circular(10)
+    //         ),
+    //         backgroundColor: Colors.teal,
+    //         foregroundColor: Colors.white
+    //       )
+    //     ),
+    //     scaffoldBackgroundColor: Colors.grey,
+    //     appBarTheme: AppBarTheme(
+    //       backgroundColor: Colors.blueGrey,
+    //       titleTextStyle: TextStyle(
+    //         color: Colors.white,
+    //         fontSize: 20,
+    //         fontWeight: FontWeight.bold
+    //       ),
+    //       centerTitle: true
+    //     ),
+    //   ),
+    //   darkTheme: ThemeData(
+    //     brightness: Brightness.dark,
+    //     elevatedButtonTheme: ElevatedButtonThemeData(
+    //         style: ElevatedButton.styleFrom(
+    //             shape: RoundedRectangleBorder(
+    //                 borderRadius: BorderRadius.circular(10)
+    //             ),
+    //             backgroundColor: Colors.teal,
+    //             foregroundColor: Colors.white
+    //         )
+    //     ),
+    //     appBarTheme: AppBarTheme(
+    //         backgroundColor: Colors.blueGrey,
+    //         titleTextStyle: TextStyle(
+    //             color: Colors.white,
+    //             fontSize: 20,
+    //             fontWeight: FontWeight.bold
+    //         ),
+    //         centerTitle: true
+    //     ),
+    //   ),
+    //   themeMode: ThemeMode.dark,
+    // );
+
+    return  CupertinoApp(
+      home: CupertinoHome(),
     );
   }
+}
+
+class CupertinoHome extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return CupertinoPageScaffold(
+        navigationBar: CupertinoNavigationBar(
+          middle: Text("Home"),
+          backgroundColor: Colors.grey,
+          leading: Icon(CupertinoIcons.home, size: 18,),
+        ),
+        child: Column(
+          children: [
+            CupertinoButton(child: Text("Tap"), onPressed: (){}),
+            CupertinoButton.filled(child: Text("Tap"), onPressed: (){}),
+          ],
+        ),
+    );
+  }
+
 }
 
 class HomeScreen extends StatelessWidget {
@@ -20,113 +104,17 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Home"),
+        title: Text("App"),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            ElevatedButton(
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context)=>SettingsScreen(userName: "Farhan")
-                      )
-                  ).then((value) {
-                    print(value); // data passed when popped
-                  });
-                },
-                child: Text("Settings")
-            )
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class SettingsScreen extends StatelessWidget {
-
-  const SettingsScreen({super.key, required this.userName, this.age});
-
-  final String userName;
-  final int? age;
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Settings"),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(userName),
-            ElevatedButton(
-                onPressed: () {
-                  Navigator.pop(context, "Akhulbab");
-                },
-                child: Text("Home")
-            ),
-            ElevatedButton(
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context)=>ProfileScreen()
-                      )
-                  );
-                },
-                child: Text("Profile")
-            ),
-            ElevatedButton(
-                onPressed: () {
-                  Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context)=>ProfileScreen()
-                      )
-                  );
-                },
-                child: Text("Profile with replace")
-            )
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class ProfileScreen extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Profile"),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            ElevatedButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                child: Text("Settings")
-            ),
-            ElevatedButton(
-                onPressed: () {
-                  Navigator.pushAndRemoveUntil(
-                      context,
-                      MaterialPageRoute(builder: (context)=> HomeScreen()),
-                          (route) => false);
-                },
-                child: Text("Home")
-            )
-          ],
-        ),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          ElevatedButton(
+              onPressed: () {},
+              child: Text("Tap")),
+          ElevatedButton(onPressed: () {}, child: Text("Tap")),
+          ElevatedButton(onPressed: () {}, child: Text("Tap")),
+        ],
       ),
     );
   }
