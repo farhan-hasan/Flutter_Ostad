@@ -1,133 +1,130 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
+/// KISS - Keep It Simple, Stupid
 
 void main() {
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: HomeScreen(),
+      home: SplashScreen(),
     );
   }
 }
 
-class HomeScreen extends StatelessWidget {
+/// Mutable
+/// Immutable
+
+// Widget - two types
+// Stateless - Immutable
+// Stateful - Mutable
+
+/// Stateful - two component
+/// Widget
+/// State
+
+class SplashScreen extends StatefulWidget {
+  const SplashScreen({super.key});
+
+  @override
+  State<SplashScreen> createState() => _SplashScreenState();
+}
+
+class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Home"),
-      ),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            ElevatedButton(
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context)=>SettingsScreen(userName: "Farhan")
-                      )
-                  ).then((value) {
-                    print(value); // data passed when popped
-                  });
-                },
-                child: Text("Settings")
-            )
-          ],
+        child: ElevatedButton(
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => HomeScreen(),
+              ),
+            );
+          },
+          child: Text('Go to Home'),
         ),
       ),
     );
   }
 }
 
-class SettingsScreen extends StatelessWidget {
 
-  const SettingsScreen({super.key, required this.userName, this.age});
-
-  final String userName;
-  final int? age;
+class HomeScreen extends StatefulWidget {
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Settings"),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(userName),
-            ElevatedButton(
-                onPressed: () {
-                  Navigator.pop(context, "Akhulbab");
-                },
-                child: Text("Home")
-            ),
-            ElevatedButton(
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context)=>ProfileScreen()
-                      )
-                  );
-                },
-                child: Text("Profile")
-            ),
-            ElevatedButton(
-                onPressed: () {
-                  Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context)=>ProfileScreen()
-                      )
-                  );
-                },
-                child: Text("Profile with replace")
-            )
-          ],
-        ),
-      ),
-    );
+  State<StatefulWidget> createState() {
+    return _HomeScreenState();
   }
 }
 
-class ProfileScreen extends StatelessWidget {
+class _HomeScreenState extends State<HomeScreen> {
+
+  @override
+  void initState() {
+    super.initState();
+    print('init State');
+    /// on start a screen
+    /// 1
+  }
+
+  @override
+  void didChangeDependencies() {
+    print('didChangeDependencies');
+    ///2
+    super.didChangeDependencies();
+  }
+
+  @override
+  void didUpdateWidget(covariant HomeScreen oldWidget) {
+    /// 4
+    print('onUpdateWidget');
+    super.didUpdateWidget(oldWidget);
+  }
+
+  int count = 0;
+
   @override
   Widget build(BuildContext context) {
+    /// 3
+    print('build');
     return Scaffold(
       appBar: AppBar(
-        title: Text("Profile"),
+        title: Text('Home'),
       ),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            ElevatedButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                child: Text("Settings")
-            ),
-            ElevatedButton(
-                onPressed: () {
-                  Navigator.pushAndRemoveUntil(
-                      context,
-                      MaterialPageRoute(builder: (context)=> HomeScreen()),
-                          (route) => false);
-                },
-                child: Text("Home")
-            )
-          ],
-        ),
+        child: Text(count.toString(), style: TextStyle(
+          fontSize: 32,
+        ),),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          count = count + 1;
+          print(count);
+
+          setState(() {});
+        },
+        child: Icon(Icons.add),
       ),
     );
+  }
+
+  @override
+  void deactivate() {
+    super.deactivate();
+    print('deactived');
+  }
+
+  @override
+  void dispose() {
+    print('dispose');
+    super.dispose();
   }
 }
