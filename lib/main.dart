@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 
-/// KISS - Keep It Simple, Stupid
+/// Orientation builder
+/// Layout Builder
+/// MediaQuery
+/// const uses on widgets
+/// package : flutter_screenutil, responsive_builder
 
 void main() {
   runApp(MyApp());
@@ -12,119 +16,90 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: SplashScreen(),
+      home: HomeScreen(),
     );
   }
 }
-
-/// Mutable
-/// Immutable
-
-// Widget - two types
-// Stateless - Immutable
-// Stateful - Mutable
-
-/// Stateful - two component
-/// Widget
-/// State
-
-class SplashScreen extends StatefulWidget {
-  const SplashScreen({super.key});
-
-  @override
-  State<SplashScreen> createState() => _SplashScreenState();
-}
-
-class _SplashScreenState extends State<SplashScreen> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: ElevatedButton(
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => HomeScreen(),
-              ),
-            );
-          },
-          child: Text('Go to Home'),
-        ),
-      ),
-    );
-  }
-}
-
 
 class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key});
 
   @override
-  State<StatefulWidget> createState() {
-    return _HomeScreenState();
-  }
+  State<HomeScreen> createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-
-  @override
-  void initState() {
-    super.initState();
-    print('init State');
-    /// on start a screen
-    /// 1
-  }
-
-  @override
-  void didChangeDependencies() {
-    print('didChangeDependencies');
-    ///2
-    super.didChangeDependencies();
-  }
-
-  @override
-  void didUpdateWidget(covariant HomeScreen oldWidget) {
-    /// 4
-    print('onUpdateWidget');
-    super.didUpdateWidget(oldWidget);
-  }
-
   int count = 0;
-
   @override
   Widget build(BuildContext context) {
-    /// 3
-    print('build');
+    print(MediaQuery.of(context).orientation);
+    print(MediaQuery.of(context).size);
+    print(MediaQuery.of(context).size.aspectRatio);
+    print(MediaQuery.of(context).size.longestSide);
+
+    print(MediaQuery.sizeOf(context));
+    print(MediaQuery.orientationOf(context));
+    print(MediaQuery.devicePixelRatioOf(context));
+
     return Scaffold(
       appBar: AppBar(
-        title: Text('Home'),
+        title: const Text("Home Screen"),
       ),
-      body: Center(
-        child: Text(count.toString(), style: TextStyle(
-          fontSize: 32,
-        ),),
+      // body: const Column(
+      //   children: [
+      //     Scrollbar(
+      //       thickness : 3,
+      //       interactive : true,
+      //       child: SingleChildScrollView(
+      //         scrollDirection: Axis.horizontal,
+      //         child: Row(
+      //           children: [
+      //             Text("aaaaaaaaaaaaaaaaaaaaaaaaaaaa"),
+      //             Text("bbbbbbbbbbbbbbbb"),
+      //             Text("cccccccccccccccc")
+      //           ],
+      //         ),
+      //       ),
+      //     ),
+      //     Wrap(
+      //       alignment: WrapAlignment.center,
+      //       crossAxisAlignment: WrapCrossAlignment.center,
+      //       spacing: 10,
+      //       children: [
+      //         Text("aaaaaaaaaaaaaaaaaaaaaaaaaaaa"),
+      //         Text("bbbbbbbbbbbbbbbb"),
+      //         Text("cccccccccccccccccccccccccccccccccccccccccccc")
+      //       ],
+      //     ),
+      //     // OrientationBuilder(
+      //     //     builder: (context, ori) {
+      //     //       if(ori==Orientation.portrait) {
+      //     //         return Text("Portrait");
+      //     //       }
+      //     //       else {
+      //     //         return Text("Landscape");
+      //     //       }
+      //     //     },
+      //     // )
+      //   ],
+      // ),
+      body: LayoutBuilder(
+        builder: (context, constraints) {
+          if(constraints.maxWidth<300) {
+            return Text("Tiny Device");
+          }
+          else {
+            return Text("Not Tiny Device");
+          }
+        },
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          count = count + 1;
-          print(count);
-
+        onPressed: (){
+          count++;
           setState(() {});
         },
-        child: Icon(Icons.add),
+        child: const Icon(Icons.add),
       ),
     );
-  }
-
-  @override
-  void deactivate() {
-    super.deactivate();
-    print('deactived');
-  }
-
-  @override
-  void dispose() {
-    print('dispose');
-    super.dispose();
   }
 }
