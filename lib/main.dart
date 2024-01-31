@@ -1,24 +1,23 @@
 import 'package:flutter/cupertino.dart';
 
-/// 1. Input two numbers
-/// 2. Inputs should be numbers
-/// 3. Add Button, Sub Button
-/// 4. Clear Button
-/// 5. Result should be shown in text
-/// 6. Text should be visible when there is result
+/// 1. Round tap button that adds a new glass of water
+/// 2. List of consumed glasses
+/// 3. number of glasses and time of consumption
+/// 4. Show list
 
 import 'package:flutter/material.dart';
 import 'home_screen.dart';
 void main () {
-  runApp(SumApp());
+  runApp(WaterTrackerApp());
 }
 
-class SumApp extends StatelessWidget {
-  const SumApp({super.key});
+class WaterTrackerApp extends StatelessWidget {
+  const WaterTrackerApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: HomeScreen(),
     );
   }
