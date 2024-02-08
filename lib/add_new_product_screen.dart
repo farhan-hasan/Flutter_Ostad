@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
 
 class AddNewProductScreen extends StatefulWidget {
   const AddNewProductScreen({super.key});
@@ -14,6 +17,7 @@ class _AddNewProductScreenState extends State<AddNewProductScreen> {
   final TextEditingController _quantityTEC = TextEditingController();
   final TextEditingController _totalPriceTEC = TextEditingController();
   final TextEditingController _imageTEC = TextEditingController();
+  bool _addNewProductInProgress = false;
 
   final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
 
@@ -119,13 +123,19 @@ class _AddNewProductScreenState extends State<AddNewProductScreen> {
                 ),
                 SizedBox(
                     width: double.infinity,
-                    child: ElevatedButton(
-                        onPressed: () {
-                          if(_formkey.currentState!.validate()) {
-
-                          }
-                        },
-                        child: Text("Add")
+                    child: Visibility(
+                      visible: _addNewProductInProgress == false,
+                      replacement: const Center(
+                        child: CircularProgressIndicator(),
+                      ),
+                      child: ElevatedButton(
+                          onPressed: () {
+                            if(_formkey.currentState!.validate()) {
+                              createNewProduct();
+                            }
+                          },
+                          child: Text("Add")
+                      ),
                     )
                 )
               ],
@@ -135,4 +145,45 @@ class _AddNewProductScreenState extends State<AddNewProductScreen> {
       ),
     );
   }
-}
+  
+  Future<void> createNewProduct() async {
+    _addNewProductInProgress = true;
+    setState(() {});
+    Uri uri = Uri.parse('https://crud.teamrabbil.com/api/v1/CreateProduct');
+    Map<String,dynamic> params = {
+      "ProductName": _nameTEC.text.trim(),
+      "ProductCode": _codeTEC.text.trim(),
+      "Img": _imageTEC.text.trim(),
+      "UnitPrice": _unitPriceTEC.text.trim(),
+      "Qty": _quantityTEC.text.trim(),
+      "TotalPrice": _totalPriceTEC.text.trim(),
+    };
+    Response response = await post(uri, body: jsonEncode(params), headers: {
+      'Content-type' : 'application/json'
+    });
+    print(response.statusCode);
+    print(response.body);
+    if(response.statusCode==200) {
+      _nameTEC.clear();
+      _codeTEC.clear();
+      _imageTEC.clear();
+      _unitPriceTEC.clear();
+      _quantityTEC.clear();
+      _totalPriceTEC.clear();
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Product added successfully")));
+    }
+    _addNewProductInProgress = false;
+    setState(() {});
+
+    @override
+    void dispose() {
+      _nameTEC.dispose();
+      _totalPriceTEC.dispose();
+      _unitPriceTEC.dispose();
+      _quantityTEC.dispose();
+      _codeTEC.dispose();
+      _imageTEC.dispose();
+      super.dispose();
+    }
+  }
+} 
