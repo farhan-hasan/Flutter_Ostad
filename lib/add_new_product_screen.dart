@@ -36,7 +36,7 @@ class _AddNewProductScreenState extends State<AddNewProductScreen> {
               children: [
                 TextFormField(
                   controller: _nameTEC,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                       hintText: "Product name",
                       labelText: "Enter Product name"),
                   // TODO: make this validation reusable
@@ -52,7 +52,7 @@ class _AddNewProductScreenState extends State<AddNewProductScreen> {
                 ),
                 TextFormField(
                   controller: _codeTEC,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                       hintText: "Product code",
                       labelText: "Enter Product code"),
                   validator: (String? value) {
@@ -67,7 +67,7 @@ class _AddNewProductScreenState extends State<AddNewProductScreen> {
                 ),
                 TextFormField(
                   controller: _unitPriceTEC,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                       hintText: "Unit price", labelText: "Enter Unit price"),
                   validator: (String? value) {
                     if (value?.trim().isEmpty ?? true) {
@@ -81,7 +81,7 @@ class _AddNewProductScreenState extends State<AddNewProductScreen> {
                 ),
                 TextFormField(
                   controller: _totalPriceTEC,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                       hintText: "Total price", labelText: "Enter Total price"),
                   validator: (String? value) {
                     if (value?.trim().isEmpty ?? true) {
@@ -95,7 +95,7 @@ class _AddNewProductScreenState extends State<AddNewProductScreen> {
                 ),
                 TextFormField(
                   controller: _imageTEC,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                       hintText: "Image", labelText: "Enter Image URL"),
                   validator: (String? value) {
                     if (value?.trim().isEmpty ?? true) {
@@ -109,7 +109,7 @@ class _AddNewProductScreenState extends State<AddNewProductScreen> {
                 ),
                 TextFormField(
                   controller: _quantityTEC,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                       hintText: "Quantity", labelText: "Enter Quantity"),
                   validator: (String? value) {
                     if (value?.trim().isEmpty ?? true) {
@@ -130,14 +130,12 @@ class _AddNewProductScreenState extends State<AddNewProductScreen> {
                       ),
                       child: ElevatedButton(
                           onPressed: () {
-                            if(_formkey.currentState!.validate()) {
+                            if (_formkey.currentState!.validate()) {
                               createNewProduct();
                             }
                           },
-                          child: Text("Add")
-                      ),
-                    )
-                )
+                          child: Text("Add")),
+                    ))
               ],
             ),
           ),
@@ -145,12 +143,12 @@ class _AddNewProductScreenState extends State<AddNewProductScreen> {
       ),
     );
   }
-  
+
   Future<void> createNewProduct() async {
     _addNewProductInProgress = true;
     setState(() {});
     Uri uri = Uri.parse('https://crud.teamrabbil.com/api/v1/CreateProduct');
-    Map<String,dynamic> params = {
+    Map<String, dynamic> params = {
       "ProductName": _nameTEC.text.trim(),
       "ProductCode": _codeTEC.text.trim(),
       "Img": _imageTEC.text.trim(),
@@ -158,19 +156,18 @@ class _AddNewProductScreenState extends State<AddNewProductScreen> {
       "Qty": _quantityTEC.text.trim(),
       "TotalPrice": _totalPriceTEC.text.trim(),
     };
-    Response response = await post(uri, body: jsonEncode(params), headers: {
-      'Content-type' : 'application/json'
-    });
-    print(response.statusCode);
-    print(response.body);
-    if(response.statusCode==200) {
+    Response response = await post(uri,
+        body: jsonEncode(params),
+        headers: {'Content-type': 'application/json'});
+    if (response.statusCode == 200) {
       _nameTEC.clear();
       _codeTEC.clear();
       _imageTEC.clear();
       _unitPriceTEC.clear();
       _quantityTEC.clear();
       _totalPriceTEC.clear();
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Product added successfully")));
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text("Product added successfully")));
     }
     _addNewProductInProgress = false;
     setState(() {});
@@ -186,4 +183,4 @@ class _AddNewProductScreenState extends State<AddNewProductScreen> {
       super.dispose();
     }
   }
-} 
+}
